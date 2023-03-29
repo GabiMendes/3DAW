@@ -11,6 +11,9 @@
     <body>
     <h1>Atividade Aula 2</h1>
         <?php
+	    
+	    //Uso de função, estrutura de repetição e demais recursos básicos
+	    
         $nomes = array ("Ana", "Bia", "Catarina", "Duda");
 		$notas = array (8.9, 6.2, 9, 3);
         //criar função para gerar
