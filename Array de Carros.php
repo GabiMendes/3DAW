@@ -6,7 +6,7 @@
 	<body>
 		<?php	
 
-		//Exercício dos carros
+		//Exercício dos carros da Aula 2
 			$carros=array("Ford", "Peugeot", "Fiat", "Fusquinha");
 			var_dump($carros);
 			
