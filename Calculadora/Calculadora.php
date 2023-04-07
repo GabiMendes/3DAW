@@ -12,8 +12,13 @@
 			<select name="operacao">
 				<option value="+">+</option>
 				<option value="-">-</option>
-				<option value="*">-</option>
+				<option value="*">*</option>
 				<option value="/">/</option>
+        <option value="pot">pot</option>
+        <option value="root">raíz</option>
+        <option value="sin">seno</option>
+        <option value="cos">cos</option>
+        <option value="tan">tan</option>
 			</select>
 			<input type="text" name="valor2">
 			<br><br>
@@ -36,6 +41,11 @@
           <option value="-">-</option>
           <option value="*">*</option>
           <option value="/">/</option>
+          <option value="pot">pot</option>
+          <option value="root">root</option>
+          <option value="sin">sin</option>
+          <option value="cos">cos</option>
+          <option value="tan">tan</option>
         </select>
     </td>
   </tr>
