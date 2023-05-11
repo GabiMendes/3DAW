@@ -21,8 +21,6 @@ $arqDisc = fopen("cadastros.txt","r") or die("Erro ao abrir arquivo.");
 
 //Ler e descartar a primeira linha (cabeçalho)
 fgets($arqDisc);
-fgets($arqDisc);
-fgets($arqDisc);
 
 $dados="";
 
