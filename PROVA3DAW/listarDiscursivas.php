@@ -16,7 +16,6 @@
 		<?php
 		$arqDisc = fopen("perguntasdiscursivas.txt", "r") or die("Erro ao abrir arquivo.");
 
-		// Ler e descartar a primeira linha (cabeçalho)
 		fgets($arqDisc);
 
 		while (!feof($arqDisc)) {
@@ -38,6 +37,8 @@
 	<br>
 
 	<form action="index_logado.php">
+    <br>
+    <br>
 	    <input type="submit" value="Voltar ao menu principal">
 	</form>
 </body>

@@ -14,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     fclose($arqDisc);
 
     if ($encontrado) {
-        // Mostrar os dados do aluno e confirmar a remoção
         echo "<h2>Dados do aluno:</h2>";
         echo "Nome: " . $dados[0] . "<br>";
         echo "CPF: " . $dados[1] . "<br>";
@@ -49,5 +48,7 @@ if (isset($_POST["remover"])) {
 ?>
 
 <form action="index_usuario.php">
+    <br>
+    <br>
 	    <input type="submit" value="Sair">
 	</form>

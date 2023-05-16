@@ -14,10 +14,10 @@
 
     <h2>Altere sua pergunta:</h2>
     <br>
-	<a href="alterardados_dissertativa.php">Dissertativa</a>
+	<a href="alterar_pergunta_DISCURSIVA.php">Dissertativa</a>
     <br>
     <br>
-    <a hreaf="alterar_perguntas_MULTIPLA.php">Múltipla-escolha</a>
+    <a href="alterar_pergunta_MULTIPLA.php">Múltipla-escolha</a>
     <h2>Banco de Perguntas:</h2>
     <br>
     <a href="listarDiscursivas.php">Discursivas</a>
@@ -26,6 +26,8 @@
 	<br>
 
     <form action="index_logado.php">
+    <br>
+    <br>
 	    <input type="submit" value="Voltar ao menu principal">
 	</form>
 

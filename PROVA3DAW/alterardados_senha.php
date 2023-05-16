@@ -20,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     fclose($arqDisc);
 
     if ($encontrado) {
-        // Mostrar os dados do aluno e permitir a alteração
         echo "<h2>Nova senha:</h2>";
         echo "<form method='POST' action='alterardados_senha.php'>";
         echo "<input type='hidden' name='username' value='" . $dados[2] . "'>";
@@ -60,6 +59,8 @@ if (isset($_POST["salvar"])) {
 }
 ?>
 <form action="index_usuario.php">
+    <br>
+    <br>
     <input type="submit" value="Voltar ao menu principal">
 </form>
 </body>

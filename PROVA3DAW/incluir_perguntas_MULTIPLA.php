@@ -1,6 +1,5 @@
 <?php
 
-// Inicializou variáveis
 $Pergunta = "";
 $AlternativaA = "";
 $AlternativaB = "";
@@ -8,7 +7,6 @@ $AlternativaC = "";
 $AlternativaD = "";
 $RespostaEscolhida = "";
 
-// Recebendo dados do formulário
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Pergunta = $_POST["Pergunta"];
     $AlternativaA = $_POST["AlternativaA"];
@@ -17,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $AlternativaD = $_POST["AlternativaD"];
     $RespostaEscolhida = $_POST["RespostaEscolhida"];
 
-    // Verifica se o arquivo existe
     if (!file_exists("perguntasmultipla.txt")) {
         $arqDisc = fopen("perguntasmultipla.txt", "w") or die("Erro ao criar o arquivo");
         $linha = "Número;Pergunta;Alternativa A;Alternativa B;Alternativa C;Alternativa D;Gabarito;\n";
@@ -25,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         fclose($arqDisc);
     }
 
-    // Lê o último número de pergunta gravado no arquivo
     $arqDisc = fopen("perguntasmultipla.txt", "r") or die("Erro ao abrir o arquivo");
     $ultimoNumero = 0;
     while (($linha = fgets($arqDisc)) !== false) {
@@ -37,10 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     fclose($arqDisc);
 
-    // Incrementa o número da próxima pergunta
     $proximoNumero = $ultimoNumero + 1;
 
-    // Abre o arquivo para adicionar a nova pergunta
     $arqDisc = fopen("perguntasmultipla.txt", "a") or die("Erro ao abrir o arquivo");
     $linha = $proximoNumero . ";" . $Pergunta . ";" . $AlternativaA . ";" . $AlternativaB . ";" . $AlternativaC . ";" . $AlternativaD . ";" . $RespostaEscolhida . ";" . "\n";
     fwrite($arqDisc, $linha);
@@ -88,6 +82,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<br>
 
 	<form action="index_logado.php">
+    <br>
+    <br>
 	    <input type="submit" value="Voltar ao menu principal">
 	</form>
 	

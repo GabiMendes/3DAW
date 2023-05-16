@@ -1,13 +1,10 @@
 <?php
 
-//Inicializou variáveis
-
 $nome = "";
 $cpf = "";
 $username = "";
 $senha= "";
 
-//Recebendo dados do form
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST["nome"];
     $cpf = $_POST["cpf"];
@@ -49,6 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<br>
 
 	<form action="index_usuario.php">
+    <br>
+    <br>
 	    <input type="submit" value="Voltar ao menu principal">
 	</form>
 	

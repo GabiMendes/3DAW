@@ -14,6 +14,8 @@
     </form>
 <br>
     <form action="index_usuario.php">
+    <br>
+    <br>
 	    <input type="submit" value="Voltar">
 	</form>
 </body>

@@ -1,15 +1,12 @@
 <?php
 
-// Inicializou variáveis
 $Pergunta = "";
 $RespostaTexto = "";
 
-// Recebendo dados do formulário
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Pergunta = $_POST["Pergunta"];
     $RespostaTexto = $_POST["RespostaTexto"];
 
-    // Verifica se o arquivo existe
     if (!file_exists("perguntasdiscursivas.txt")) {
         $arqDisc = fopen("perguntasdiscursivas.txt", "w") or die("erro ao criar arquivo");
         $linha = "Número;Pergunta;Gabarito;\n";
@@ -17,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         fclose($arqDisc);
     }
 
-    // Lê o último número de pergunta gravado no arquivo
     $arqDisc = fopen("perguntasdiscursivas.txt", "r") or die("erro ao abrir arquivo");
     $ultimoNumero = 0;
     while (($linha = fgets($arqDisc)) !== false) {
@@ -29,10 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     fclose($arqDisc);
 
-    // Incrementa o número da próxima pergunta
     $proximoNumero = $ultimoNumero + 1;
 
-    // Abre o arquivo para adicionar a nova pergunta
     $arqDisc = fopen("perguntasdiscursivas.txt", "a") or die("erro ao abrir arquivo");
     $linha = $proximoNumero . ";" . $Pergunta . ";" . $RespostaTexto . ";" . "\n";
     fwrite($arqDisc, $linha);
@@ -57,6 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<br>
 
 	<form action="index_logado.php">
+    <br>
+    <br>
 	    <input type="submit" value="Voltar ao menu principal">
 	</form>
 	
