@@ -5,23 +5,21 @@
 <body>
 	<h1>PROVA3DAW - MENU DE PERGUNTAS</h1>
     <br>
-    <h2>Cadastre sua pergunta:</h2>
     <br>
-	<a href="incluir_perguntas_TEXTO.php">Dissertativa</a>
+    <h3><a href="incluirdadosPergunta.php">Cadastrar Pergunta</a></h3>
     <br>
+	<h3><a href="alterardadosUnica.php">Alterar Pergunta</a></h3>
     <br>
-    <a href="incluir_perguntas_MULTIPLA.php">Múltipla-escolha</a>
-
-    <h2>Altere sua pergunta:</h2>
+    <h3><a href="removerPergunta.php">Remover Pergunta</a></h3>
     <br>
-	<a href="alterar_pergunta_DISCURSIVA.php">Dissertativa</a>
+    <h3><a href="listarUnica.php">Buscar pergunta específica</a></h3>
     <br>
-    <br>
-    <a href="alterar_pergunta_MULTIPLA.php">Múltipla-escolha</a>
     <h2>Banco de Perguntas:</h2>
     <br>
     <a href="listarDiscursivas.php">Discursivas</a>
     <a href="listarMultiplas.php">Múltiplas-Escolhas</a>
+    <br>
+    <br>
 
 	<br>
 

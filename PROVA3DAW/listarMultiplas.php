@@ -7,7 +7,7 @@
 	<table>
 	<thead>
 		<tr>
-			<th>Número</th>
+			<th>ID</th>
 			<th>Pergunta</th>
 			<th>Alternativa A</th>
 			<th>Alternativa B</th>
@@ -19,8 +19,6 @@
 	<tbody>
 		<?php
 		$arqDisc = fopen("perguntasmultipla.txt", "r") or die("Erro ao abrir arquivo.");
-
-		fgets($arqDisc);
 
 		while (!feof($arqDisc)) {
 		    $linha = fgets($arqDisc);

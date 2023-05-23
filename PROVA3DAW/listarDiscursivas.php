@@ -4,12 +4,13 @@
 </head>
 <body>
 	<h1>Listar Perguntas Discursivas</h1>
+	
 	<table>
 	<thead>
 		<tr>
-			<th>Número</th>
+			<th>ID</th>
 			<th>Pergunta</th>
-			<th>Resposta Texto</th>
+			<th>Gabarito</th>
 		</tr>
 	</thead>
 	<tbody>
