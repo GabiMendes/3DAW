@@ -1,5 +1,5 @@
 <?php
-$perguntaId = isset($_GET['id']) ? $_GET['id'] : '';
+$tipoPergunta = isset($_GET['tipo']) ? $_GET['tipo'] : '';
 
 function lerPergunta($arquivo, $id)
 {
@@ -45,8 +45,14 @@ function exibirDetalhes($perguntaId, $dados)
     }
 }
 
+$arquivoMultipla = "perguntasmultipla.txt";
 $arquivoTexto = "perguntasdiscursivas.txt";
 
+if ($tipoPergunta == 'discursiva' || $tipoPergunta == 'multipla') {
+    $tipoPergunta = strtoupper($tipoPergunta);
+    header("Location: listar_" . $tipoPergunta . ".php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,38 +60,23 @@ $arquivoTexto = "perguntasdiscursivas.txt";
 <head>
 </head>
 <body>
-    <h1>Listar Pergunta Única - Discursiva</h1>
-    <form action="listarUnica_DISCURSIVA.php" method="GET">
-        <label for="id">ID da pergunta:</label>
-        <select name="id" id="id">
-            <?php
-            $arq = fopen($arquivoTexto, "r") or die("Erro ao abrir o arquivo");
-
-            while (($linha = fgets($arq)) !== false) {
-                $dados = explode(";", $linha);
-                $numero = trim($dados[0]);
-
-                echo "<option value=\"$numero\">$numero</option>";
-            }
-
-            fclose($arq);
-            ?>
+    <h1>Listar Pergunta Única</h1>
+    <form action="listarPergunta.php" method="GET">
+        <label for="tipo">Tipo de pergunta:</label>
+        <select name="tipo" id="tipo">
+            <option value="discursiva">Discursiva</option>
+            <option value="multipla">Múltipla Escolha</option>
         </select>
-        <input type="submit" value="Buscar">
+        <br>
+        <input type="submit" value="Selecionar">
     </form>
     <br>
-
-    <?php
-    if (!empty($perguntaId)) {
-        $dadosPergunta = lerPergunta($arquivoTexto, $perguntaId);
-        exibirDetalhes($perguntaId, $dadosPergunta);
-    }
-    ?>
-
-    <form action="listarUnica.php">
+    
+    <form action="UsuarioLogado.php">
         <br>
-        <input type="submit" value="Voltar">
+        <br>
+        <input type="submit" value="Voltar ao menu principal">
     </form>
-
+    
 </body>
 </html>

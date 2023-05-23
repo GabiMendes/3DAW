@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "<h2>ALTERADA COM SUCESSO</h2>";
         } else {
             echo "<h2>Alterar pergunta:</h2>";
-            echo "<form method='POST' action='alterar_pergunta_DISCURSIVA.php'>";
+            echo "<form method='POST' action='alterar_DISCURSIVA.php'>";
             echo "<input type='hidden' name='numero' value='" . $dados[0] . "'>";
             echo "Pergunta: <input type='text' name='pergunta' value='" . $dados[1] . "'><br>";
             echo "Gabarito: <input type='text' name='gabarito' value='" . $dados[2] . "'><br>";
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (!isset($_POST["buscar"]) && !isset($_POST["salvar"])) { 
     ?>
     <h1>Alterar Discursiva</h1>
-    <form action="alterar_pergunta_DISCURSIVA.php" method="POST">
+    <form action="alterar_DISCURSIVA.php" method="POST">
         <label for="numero">Número:</label>
         <select name="numero" id="numero">
             <?php
@@ -69,7 +69,7 @@ if (!isset($_POST["buscar"]) && !isset($_POST["salvar"])) {
 
 <br>
 
-<form action="index_logado.php">
+<form action="UsuarioLogado.php">
     <br>
     <br>
     <input type="submit" value="Voltar ao menu principal">

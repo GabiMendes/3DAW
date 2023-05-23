@@ -9,9 +9,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tipoPergunta = $_POST["tipo"];
 
     if ($tipoPergunta == "discursiva") {
-        header("Location: alterar_pergunta_DISCURSIVA.php");
+        header("Location: alterar_DISCURSIVA.php");
     } elseif ($tipoPergunta == "multipla") {
-        header("Location: alterar_pergunta_MULTIPLA.php");
+        header("Location: alterar_MULTIPLA.php");
     } else {
         echo "<h2>Tipo de pergunta inválido.</h2>";
     }
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <h1>Alterar Pergunta Única</h1>
-<form method="POST" action="alterardadosUnica.php">
+<form method="POST" action="alterarPergunta.php">
     <label for="tipo">Selecione o tipo de pergunta:</label>
     <select name="tipo" id="tipo">
         <option value="discursiva">Discursiva</option>
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input type="submit" value="Avançar" name="avancar">
 </form>
 
-<form action="index_logado.php">
+<form action="UsuarioLogado.php">
     <br>
     <br>
     <input type="submit" value="Voltar ao menu principal">

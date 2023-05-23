@@ -55,7 +55,7 @@ $arquivoMultipla = "perguntasmultipla.txt";
 </head>
 <body>
     <h1>Listar Pergunta Única - Múltipla Escolha</h1>
-    <form action="listarUnica_MULTIPLA.php" method="GET">
+    <form action="listar_MULTIPLA.php" method="GET">
         <label for="id">ID da pergunta:</label>
         <select name="id" id="id">
             <?php
@@ -82,7 +82,7 @@ $arquivoMultipla = "perguntasmultipla.txt";
     }
     ?>
 
-    <form action="listarUnica.php">
+    <form action="listarPergunta.php">
         <br>
         <input type="submit" value="Voltar">
     </form>

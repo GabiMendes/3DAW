@@ -5,7 +5,7 @@
 </head>
 <body>
     <h2>Página de Login</h2>
-    <form method="POST" action="login_processado.php">
+    <form method="POST" action="ChecarLogin.php">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
         <label for="senha">Senha:</label>
@@ -13,7 +13,7 @@
         <input type="submit" value="Login">
     </form>
 <br>
-    <form action="index_usuario.php">
+    <form action="index.php">
     <br>
     <br>
 	    <input type="submit" value="Voltar">

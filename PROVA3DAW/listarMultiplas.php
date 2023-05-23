@@ -19,7 +19,7 @@
 	<tbody>
 		<?php
 		$arqDisc = fopen("perguntasmultipla.txt", "r") or die("Erro ao abrir arquivo.");
-
+		$linha = fgets($arqDisc);
 		while (!feof($arqDisc)) {
 		    $linha = fgets($arqDisc);
 		    if (!empty($linha)) {
@@ -42,7 +42,7 @@
 
 	<br>
 
-	<form action="index_logado.php">
+	<form action="UsuarioLogado.php">
     <br>
     <br>
 	    <input type="submit" value="Voltar ao menu principal">

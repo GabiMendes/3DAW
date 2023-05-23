@@ -37,7 +37,7 @@
 
 	<br>
 
-	<form action="index_logado.php">
+	<form action="UsuarioLogado.php">
     <br>
     <br>
 	    <input type="submit" value="Voltar ao menu principal">

@@ -1,5 +1,5 @@
 <?php
-$tipoPergunta = isset($_GET['tipo']) ? $_GET['tipo'] : '';
+$perguntaId = isset($_GET['id']) ? $_GET['id'] : '';
 
 function lerPergunta($arquivo, $id)
 {
@@ -45,13 +45,8 @@ function exibirDetalhes($perguntaId, $dados)
     }
 }
 
-$arquivoMultipla = "perguntasmultipla.txt";
 $arquivoTexto = "perguntasdiscursivas.txt";
 
-if ($tipoPergunta == 'discursiva' || $tipoPergunta == 'multipla') {
-    header("Location: listarUnica_" . strtoupper($tipoPergunta) . ".php");
-    exit;
-}
 ?>
 
 <!DOCTYPE html>
@@ -59,23 +54,38 @@ if ($tipoPergunta == 'discursiva' || $tipoPergunta == 'multipla') {
 <head>
 </head>
 <body>
-    <h1>Listar Pergunta Única</h1>
-    <form action="listarUnica.php" method="GET">
-        <label for="tipo">Tipo de pergunta:</label>
-        <select name="tipo" id="tipo">
-            <option value="discursiva">Discursiva</option>
-            <option value="multipla">Múltipla Escolha</option>
+    <h1>Listar Pergunta Única - Discursiva</h1>
+    <form action="listar_DISCURSIVA.php" method="GET">
+        <label for="id">ID da pergunta:</label>
+        <select name="id" id="id">
+            <?php
+            $arq = fopen($arquivoTexto, "r") or die("Erro ao abrir o arquivo");
+
+            while (($linha = fgets($arq)) !== false) {
+                $dados = explode(";", $linha);
+                $numero = trim($dados[0]);
+
+                echo "<option value=\"$numero\">$numero</option>";
+            }
+
+            fclose($arq);
+            ?>
         </select>
-        <br>
-        <input type="submit" value="Selecionar">
+        <input type="submit" value="Buscar">
     </form>
     <br>
-    
-    <form action="index_logado.php">
+
+    <?php
+    if (!empty($perguntaId)) {
+        $dadosPergunta = lerPergunta($arquivoTexto, $perguntaId);
+        exibirDetalhes($perguntaId, $dadosPergunta);
+    }
+    ?>
+
+    <form action="listarPergunta.php">
         <br>
-        <br>
-        <input type="submit" value="Voltar ao menu principal">
+        <input type="submit" value="Voltar">
     </form>
-    
+
 </body>
 </html>

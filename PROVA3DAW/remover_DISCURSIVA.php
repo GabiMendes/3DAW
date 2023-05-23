@@ -34,12 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "<h2>Confirmação de Remoção:</h2>";
                 echo "<p>Dados da pergunta a ser removida:</p>";
                 echo "<p>$perguntaRemover</p>";
-                echo "<form method='POST' action='remover_pergunta_DISCURSIVA.php'>";
+                echo "<form method='POST' action='remover_DISCURSIVA.php'>";
                 echo "<input type='hidden' name='numero' value='$numero'>";
                 echo "<input type='hidden' name='confirmacao' value='true'>";
                 echo "<input type='submit' value='Confirmar Remoção' name='remover'>";
                 echo "</form>";
-                echo "<form action='index_logado.php'>";
+                echo "<form action='UsuarioLogado.php'>";
                 echo "<br><br>";
                 echo "<input type='submit' value='Cancelar'>";
                 echo "</form>";
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "<h2>Pergunta não encontrada.</h2>";
         }
         ?>
-        <form action="index_logado.php">
+        <form action="UsuarioLogado.php">
         <br>
         <br>
         <input type="submit" value="Voltar ao menu principal">
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <h1>Remover Discursiva</h1>
-<form action="remover_pergunta_DISCURSIVA.php" method="POST">
+<form action="remover_DISCURSIVA.php" method="POST">
     <label for="numero">Número:</label>
     <select name="numero" id="numero">
         <?php
@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </form>
 <br>
 
-<form action="index_logado.php">
+<form action="UsuarioLogado.php">
     <br>
     <br>
     <input type="submit" value="Voltar ao menu principal">
