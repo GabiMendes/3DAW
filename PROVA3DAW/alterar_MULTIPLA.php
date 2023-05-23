@@ -72,7 +72,7 @@ if (!isset($_POST["buscar"]) && !isset($_POST["salvar"])) {
         <select name="numero" id="numero">
             <?php
                 $arqMultipla = fopen("perguntasmultipla.txt", "r") or die("Erro ao abrir o arquivo.");
-
+                $linha = fgets($arqMultipla);
                 while (!feof($arqMultipla)) {
                     $linha = fgets($arqMultipla);
                     $dados = explode(";", $linha);
