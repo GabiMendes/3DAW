@@ -48,7 +48,7 @@ if (!isset($_POST["buscar"]) && !isset($_POST["salvar"])) {
         <select name="numero" id="numero">
             <?php
                 $arqDisc = fopen("perguntasdiscursivas.txt", "r") or die("Erro ao abrir o arquivo.");
-
+                $linha = fgets($arqDisc);
                 while (!feof($arqDisc)) {
                     $linha = fgets($arqDisc);
                     $dados = explode(";", $linha);
