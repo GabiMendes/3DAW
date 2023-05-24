@@ -1,0 +1,1 @@
+Número;Pergunta;Alternativa A;Alternativa B;Alternativa C;Alternativa D;Gabarito;
