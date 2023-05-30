@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Incluir Aluno</title>
+    <script>
+        function EnviarAluno() {
+            let objForm = document.getElementById("formAluno");
+            console.log("objForm: " + objForm.innerHTML);
+            let matricula = document.getElementById("matricula").value;
+            let nome = document.getElementById("nome").value;
+            let email = document.getElementById("email").value;
+            let cpf = document.getElementById("cpf").value;
+            
+            let msg = ValidaForm(matricula, nome, email, cpf);
+
+            if (msg !== "") {
+                document.getElementById("msg").innerHTML = msg;
+                return; 
+            }
+
+            console.log("Matricula: " + matricula + " nome: " + nome + " email: " + email + "cpf: " + cpf);
+            let objForm2 = {"matricula": matricula, "nome": nome, "email": email, "cpf": cpf};
+            let objJson = JSON.stringify(objForm);
+            console.log("objForm2: " + objForm2);
+            console.log("JSON: " + objJson);
+
+            let xmlhttp = new XMLHttpRequest();
+            console.log("1");
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("Chegou a resposta OK: " + this.responseText);
+                    console.log("2");
+                    document.getElementById("msg").innerHTML = this.responseText;
+                } else
+                    if (this.readyState < 4) {
+                        console.log("3: " + this.readyState);
+                    } else
+                        console.log("Requisicao falhou: " + this.status);
+            }
+            console.log("4");
+            xmlhttp.open("GET", "IncluirAluno.php?matricula=" + matricula +
+                            "&nome=" + nome + "&email=" + email + "&cpf=" + cpf);
+            xmlhttp.send();
+            console.log("enviei form");
+            console.log("5");
+        }
+        function ValidaForm(pmatricula, pnome, pemail, pcpf) {
+    let msg = "";
+
+    // Verificar campos vazios
+    if (pmatricula.trim() === "" || pnome.trim() === "" || pemail.trim() === "" || pcpf.trim() === "") {
+        msg += "Todos os campos devem ser preenchidos. <br>";
+    }
+
+    // Verificar se a matrícula contém apenas números
+    if (!/^[\d]+$/.test(pmatricula)) {
+        msg += "A matrícula deve conter apenas números. <br>";
+    }
+
+    // Verificar se o nome contém apenas letras
+    if (!/^[a-zA-Z]+$/.test(pnome)) {
+        msg += "O nome deve conter apenas letras. <br>";
+    }
+
+    // Verificar se o e-mail contém o caractere "@"
+    if (!pemail.includes("@")) {
+        msg += "O e-mail deve conter o caractere '@'. <br>";
+    }
+
+    // Verificar se o CPF contém apenas números e ponto
+    if (!/^[\d.]+$/.test(pcpf)) {
+        msg += "O CPF deve conter apenas números e ponto. <br>";
+    }
+
+    return msg;
+}
+    </script>
+</head>
+<body>
+<h1>Inserir Aluno</h1>
+<br>
+<a href="IncluirAlunoJS.html">Inserir Aluno</a><br>
+<a href="alterarAluno.html">Alterar Aluno</a><br>
+<a href="listarAlunos.html">Listar Alunos</a><br>
+<a href="excluirAluno.html">Excluir Aluno</a><br>
+<a href="detalheAluno.html">Detalhe de Aluno</a><br>
+<br>
+<form action="" method=POST name="formAluno" id="formAluno">
+    Matricula: <input type=text name="matricula" id="matricula" required> <br>
+    nome: <input type=text name="nome" id="nome"> <br>
+    email: <input type=text name="email" id="email"> <br>
+    cpf: <input type="text" name="cpf" id="cpf"> <br>
+    <br><br>
+    <input type="button" value="Inserir" onclick="EnviarAluno();">
+</form>
+<p id="msg"></p>
+<br>
+</body>
+</html>

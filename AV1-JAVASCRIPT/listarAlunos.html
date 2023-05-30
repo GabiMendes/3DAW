@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Alunos</title>
+</head>
+<body>
+<h1>Listar Alunos</h1>
+<br>
+<a href="IncluirAlunoJS.html">Inserir Aluno</a><br>
+<a href="alterarAluno.html">Alterar Aluno</a><br>
+<a href="listarAlunos.html">Listar Alunos</a><br>
+<a href="excluirAluno.html">Excluir Aluno</a><br>
+<a href="detalheAluno.html">Detalhe de Aluno</a><br>
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>Matrícula</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>CPF</th>
+        </tr>
+    </thead>
+    <tbody id="alunosTableBody">
+    </tbody>
+</table>
+
+<script>
+    function carregarAlunos() {
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                let alunos = JSON.parse(this.responseText);
+                let tableBody = document.getElementById("alunosTableBody");
+                tableBody.innerHTML = "";
+
+                alunos.forEach(function(aluno) {
+                    let row = document.createElement("tr");
+                    let matricula = document.createElement("td");
+                    matricula.textContent = aluno.matricula;
+                    let nome = document.createElement("td");
+                    nome.textContent = aluno.nome;
+                    let email = document.createElement("td");
+                    email.textContent = aluno.email;
+                    let cpf = document.createElement("td");
+                    cpf.textContent = aluno.cpf;
+
+                    row.appendChild(matricula);
+                    row.appendChild(nome);
+                    row.appendChild(email);
+                    row.appendChild(cpf);
+                    tableBody.appendChild(row);
+                });
+            }
+        };
+        xmlhttp.open("GET", "listarAlunos.php", true);
+        xmlhttp.send();
+    }
+
+    window.onload = carregarAlunos;
+</script>
+
+</body>
+</html>
