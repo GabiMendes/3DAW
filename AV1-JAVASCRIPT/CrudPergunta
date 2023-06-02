@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CrudPergunta</title>
+
+    <script>
+        function abrirInserirPergunta() {
+            document.getElementById("formInserirPergunta").style.display = "block";
+            obterProximaId();
+        }
+
+        function obterProximaId() {
+            fetch("ObterProximaId.php")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("idPerguntaIncluir").value = data.proximaId;
+                })
+                .catch(error => console.log("Erro ao obter a próxima ID: " + error));
+        }
+
+        function EnviarPergunta() {
+            var pergunta = document.getElementById("pergunta").value;
+            var gabarito = document.getElementById("gabarito").value;
+            var alternativaA = document.getElementById("alternativaA").value;
+            var alternativaB = document.getElementById("alternativaB").value;
+            var alternativaC = document.getElementById("alternativaC").value;
+            var alternativaD = document.getElementById("alternativaD").value;
+
+            var formData = new FormData();
+            formData.append("pergunta", pergunta);
+            formData.append("gabarito", gabarito);
+            formData.append("alternativaA", alternativaA);
+            formData.append("alternativaB", alternativaB);
+            formData.append("alternativaC", alternativaC);
+            formData.append("alternativaD", alternativaD);
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("msgIncluir").innerHTML = this.responseText;
+                    resetForm();
+                } else if (this.readyState < 4) {
+                    console.log("Aguardando resposta...");
+                } else {
+                    console.log("Requisição falhou: " + this.status);
+                }
+            };
+
+            xmlhttp.open("POST", "IncluirPergunta.php", true);
+            xmlhttp.send(formData);
+        }
+
+        function abrirExcluirPergunta() {
+            document.getElementById("formExcluirPergunta").style.display = "block";
+        }
+
+        function ExcluirPergunta() {
+            var idPergunta = document.getElementById("idPerguntaExcluir").value;
+
+            var formData = new FormData();
+            formData.append("idPergunta", idPergunta);
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("msgExcluir").innerHTML = this.responseText;
+                    resetForm();
+                } else if (this.readyState < 4) {
+                    console.log("Aguardando resposta...");
+                } else {
+                    console.log("Requisição falhou: " + this.status);
+                }
+            };
+
+            xmlhttp.open("POST", "ExcluirPergunta.php", true);
+            xmlhttp.send(formData);
+        }
+
+        function resetForm() {
+            document.getElementById("pergunta").value = "";
+            document.getElementById("gabarito").value = "";
+            document.getElementById("alternativaA").value = "";
+            document.getElementById("alternativaB").value = "";
+            document.getElementById("alternativaC").value = "";
+            document.getElementById("alternativaD").value = "";
+            document.getElementById("formInserirPergunta").style.display = "none";
+            document.getElementById("msgIncluir").innerHTML = "";
+            document.getElementById("idPerguntaExcluir").value = "";
+            document.getElementById("formExcluirPergunta").style.display = "none";
+            document.getElementById("msgExcluir").innerHTML = "";
+        }
+    </script>
+    
+</head>
+<body>
+    <h1>Perguntas</h1>
+    <br>
+    <ul>
+        <a href="#" onclick="abrirInserirPergunta()">Inserir Pergunta</a>
+        <a href="#" onclick="abrirExcluirPergunta()">Excluir Pergunta</a>
+        <a href="#" onclick="abrirAlterarPergunta()">Alterar Pergunta</a>
+        <a href="#" onclick="abrirListarPergunta()">Listar Pergunta</a>
+    </ul>
+
+    <br>
+    <form id="formExcluirPergunta" style="display: none;">
+        ID: <input type="text" name="idPergunta" id="idPerguntaExcluir" required> <br>
+        <br>
+        <input type="button" value="Excluir" onclick="ExcluirPergunta();">
+    </form>
+    <p id="msgExcluir"></p>
+
+    <br>
+    <form id="formInserirPergunta" style="display: none;">
+        Pergunta: <input type="text" name="pergunta" id="pergunta" required> <br>
+        Gabarito: <input type="text" name="gabarito" id="gabarito" required> <br>
+        Alternativa A: <input type="text" name="alternativaA" id="alternativaA"> <br>
+        Alternativa B: <input type="text" name="alternativaB" id="alternativaB"> <br>
+        Alternativa C: <input type="text" name="alternativaC" id="alternativaC"> <br>
+        Alternativa D: <input type="text" name="alternativaD" id="alternativaD"> <br>
+        <input type="text" name="idPergunta" id="idPerguntaIncluir" readonly style="display: none">
+        <br><br>
+        <input type="button" value="Inserir" onclick="EnviarPergunta();">
+    </form>
+    <p id="msgIncluir"></p>
+    
+</body>
+</html>

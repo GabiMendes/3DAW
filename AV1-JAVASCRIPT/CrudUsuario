@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Alunos</title>
+    <script>
+        function ExcluirAluno() {
+            let matricula = document.getElementById("matriculaExcluir").value;
+            let xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("msgExcluir").innerHTML = this.responseText;
+                } else if (this.readyState < 4) {
+                    document.getElementById("msgExcluir").innerHTML = "Aguardando resposta...";
+                } else {
+                    console.log("Falha na requisição: " + this.status);
+                }
+            };
+
+            xmlhttp.open("GET", "excluirAluno.php?matricula=" + matricula, true);
+            xmlhttp.send();
+        }
+
+        function EnviarAluno() {
+    let matricula = document.getElementById("matriculaIncluir").value;
+    let nome = document.getElementById("nome").value;
+    let email = document.getElementById("email").value;
+    let cpf = document.getElementById("cpf").value;
+
+    let msg = ValidaForm(matricula, nome, email, cpf);
+
+    if (msg !== "") {
+        document.getElementById("msgIncluir").innerHTML = msg;
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append("matricula", matricula);
+    formData.append("nome", nome);
+    formData.append("email", email);
+    formData.append("cpf", cpf);
+
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("msgIncluir").innerHTML = this.responseText;
+        } else if (this.readyState < 4) {
+            console.log("Aguardando resposta...");
+        } else {
+            console.log("Requisição falhou: " + this.status);
+        }
+    };
+
+    xmlhttp.open("POST", "IncluirAluno.php", true);
+    xmlhttp.send(formData);
+    
+}
+
+        function ValidaForm(pmatricula, pnome, pemail, pcpf) {
+            let msg = "";
+
+            if (pmatricula.trim() === "" || pnome.trim() === "" || pemail.trim() === "" || pcpf.trim() === "") {
+                msg += "Todos os campos devem ser preenchidos. <br>";
+            }
+
+            if (!/^[\d]+$/.test(pmatricula)) {
+                msg += "A matrícula deve conter apenas números. <br>";
+            }
+
+            if (!/^[a-zA-Z]+$/.test(pnome)) {
+                msg += "O nome deve conter apenas letras. <br>";
+            }
+
+            if (!pemail.includes("@")) {
+                msg += "O e-mail deve conter o caractere '@'. <br>";
+            }
+
+            if (!/^[\d.]+$/.test(pcpf)) {
+                msg += "O CPF deve conter apenas números e ponto. <br>";
+            }
+
+            return msg;
+        }
+
+        function esconderMensagens() {
+    document.getElementById("msgIncluir").innerHTML = "";
+    document.getElementById("msgExcluir").innerHTML = "";
+}
+
+        function carregarAlunos() {
+            let xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    let alunos = JSON.parse(this.responseText);
+                    let tableBody = document.getElementById("alunosTableBody");
+                    tableBody.innerHTML = "";
+
+                    alunos.forEach(function(aluno) {
+                        let row = document.createElement("tr");
+                        let matricula = document.createElement("td");
+                        matricula.textContent = aluno.matricula;
+                        let nome = document.createElement("td");
+                        nome.textContent = aluno.nome;
+                        let email = document.createElement("td");
+                        email.textContent = aluno.email;
+                        let cpf = document.createElement("td");
+                        cpf.textContent = aluno.cpf;
+
+                        row.appendChild(matricula);
+                        row.appendChild(nome);
+                        row.appendChild(email);
+                        row.appendChild(cpf);
+                        tableBody.appendChild(row);
+                    });
+                }
+            };
+            xmlhttp.open("GET", "listarAlunos.php", true);
+            xmlhttp.send();
+            
+        }
+
+        function abrirInserirAluno() {
+            document.getElementById("formExcluirAluno").style.display = "none";
+            document.getElementById("listarAlunos").style.display = "none";
+            document.getElementById("formFazerLogin").style.display = "none";
+            document.getElementById("alunosTableBody").innerHTML = "";
+            document.getElementById("formInserirAluno").style.display = "block";
+            esconderMensagens();
+        }
+
+        function abrirExcluirAluno() {
+            document.getElementById("formInserirAluno").style.display = "none";
+            document.getElementById("listarAlunos").style.display = "none";
+            document.getElementById("formFazerLogin").style.display = "none";
+            document.getElementById("alunosTableBody").innerHTML = "";
+            document.getElementById("formExcluirAluno").style.display = "block";
+            esconderMensagens();
+        }
+
+        function abrirListarAlunos() {
+            document.getElementById("formInserirAluno").style.display = "none";
+            document.getElementById("formExcluirAluno").style.display = "none";
+            document.getElementById("formFazerLogin").style.display = "none";
+            document.getElementById("listarAlunos").style.display = "block";
+            esconderMensagens();
+            carregarAlunos();
+        }
+
+        function abrirFazerLogin() {
+    document.getElementById("formInserirAluno").style.display = "none";
+    document.getElementById("formExcluirAluno").style.display = "none";
+    document.getElementById("listarAlunos").style.display = "none";
+    document.getElementById("alunosTableBody").innerHTML = "";
+    esconderMensagens();
+
+    document.getElementById("formFazerLogin").style.display = "block";
+}
+
+function FazerLogin() {
+    let matricula = document.getElementById("matricula").value;
+    let cpf = document.getElementById("cpf").value;
+
+    let formData = new FormData();
+    formData.append("matricula", matricula);
+    formData.append("cpf", cpf);
+
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                window.location.href = "CrudPergunta";
+            } else if (this.status == 401) {
+                document.getElementById("msgLogin").innerHTML = "Matrícula ou CPF inválidos.";
+            }
+        }
+    };
+
+    xmlhttp.open("POST", "Login.php", true);
+    xmlhttp.send(formData);
+}
+
+        
+        window.onload = function() {
+            document.getElementById("formInserirAluno").style.display = "none";
+            document.getElementById("formExcluirAluno").style.display = "none";
+            document.getElementById("listarAlunos").style.display = "none";
+            
+        };
+    </script>
+</head>
+<body>
+    <h1>Alunos</h1>
+    <br>
+    <ul>
+        <a href="#" onclick="abrirInserirAluno()">Inserir Aluno</a>
+        <a href="#" onclick="abrirExcluirAluno()">Excluir Aluno</a>
+        <a href="#" onclick="abrirListarAlunos()">Listar Alunos</a>
+        <a href="#" onclick ="abrirFazerLogin()">Fazer Login</a>
+    </ul>
+
+    <br>
+    <form id="formExcluirAluno" style="display: none;">
+        Matricula: <input type="text" name="matricula" id="matriculaExcluir" required> <br>
+        <br>
+        <input type="button" value="Excluir" onclick="ExcluirAluno();">
+    </form>
+    <p id="msgExcluir"></p>
+
+    <br>
+    <form action="" method="POST" name="formInserirAluno" id="formInserirAluno" style="display: none;">
+        Matricula: <input type="text" name="matricula" id="matriculaIncluir" required> <br>
+        nome: <input type="text" name="nome" id="nome"> <br>
+        email: <input type="text" name="email" id="email"> <br>
+        cpf: <input type="text" name="cpf" id="cpf"> <br>
+        <br><br>
+        <input type="button" value="Inserir" onclick="EnviarAluno();">
+    </form>
+    <p id="msgIncluir"></p>
+    
+    <h1 id="listarAlunos" style="display: none;"></h1>
+    <table>
+        <thead>
+        </thead>
+        <tbody id="alunosTableBody">
+        </tbody>
+    </table>
+
+    <br>
+    <form id="formFazerLogin" style="display: none;">
+        Matrícula: <input type="text" name="matricula" id="matricula" required> <br>
+        CPF: <input type="text" name="cpf" id="cpf" required> <br>
+        <br>
+        <input type="button" value="Fazer Login" onclick="FazerLogin();">
+    </form>
+    <p id="msgLogin"></p>
+</body>
+</html>
