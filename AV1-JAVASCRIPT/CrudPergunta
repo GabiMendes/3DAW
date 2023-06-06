@@ -8,6 +8,10 @@
         function abrirInserirPergunta() {
             document.getElementById("formInserirPergunta").style.display = "block";
             obterProximaId();
+            document.getElementById("formExcluirPergunta").style.display = "none";
+            document.getElementById("formAlterarPergunta").style.display = "none";
+            document.getElementById("formListarPergunta").style.display = "none";
+            esconderMensagens();
         }
 
         function obterProximaId() {
@@ -53,7 +57,84 @@
 
         function abrirExcluirPergunta() {
             document.getElementById("formExcluirPergunta").style.display = "block";
+            document.getElementById("formInserirPergunta").style.display = "none";
+            document.getElementById("formAlterarPergunta").style.display = "none";
+            document.getElementById("formListarPergunta").style.display = "none";
+            esconderMensagens();
         }
+
+        function abrirAlterarPergunta() {
+        document.getElementById("formAlterarPergunta").style.display = "block";
+        document.getElementById("formExcluirPergunta").style.display = "none";
+        document.getElementById("formInserirPergunta").style.display = "none";
+        document.getElementById("formListarPergunta").style.display = "none";
+        esconderMensagens();
+    }
+
+    function abrirListarPergunta() {
+        document.getElementById("formListarPergunta").style.display = "block";
+        document.getElementById("formAlterarPergunta").style.display = "none";
+        document.getElementById("formExcluirPergunta").style.display = "none";
+        document.getElementById("formInserirPergunta").style.display = "none";
+        esconderMensagens();
+    }
+
+    function ListarPergunta() {
+            var idPergunta = document.getElementById("idPerguntaListar").value;
+
+            var formData = new FormData();
+            formData.append("idPergunta", idPergunta);
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("msgListar").innerHTML = this.responseText;
+                    resetForm();
+                } else if (this.readyState < 4) {
+                    console.log("Aguardando resposta...");
+                } else {
+                    console.log("Requisição falhou: " + this.status);
+                }
+            };
+
+            xmlhttp.open("POST", "ListarPergunta.php", true);
+            xmlhttp.send(formData);
+    }
+
+    function AlterarPergunta() {
+        var idPergunta = document.getElementById("idPerguntaAlterar").value;
+        var pergunta = document.getElementById("perguntaAlterar").value;
+        var gabarito = document.getElementById("gabaritoAlterar").value;
+        var alternativaA = document.getElementById("alternativaAAlterar").value;
+        var alternativaB = document.getElementById("alternativaBAlterar").value;
+        var alternativaC = document.getElementById("alternativaCAlterar").value;
+        var alternativaD = document.getElementById("alternativaDAlterar").value;
+
+            var formData = new FormData();
+            formData.append("idPergunta", idPergunta);
+            formData.append("pergunta", pergunta);
+            formData.append("gabarito", gabarito);
+            formData.append("alternativaA", alternativaA);
+            formData.append("alternativaB", alternativaB);
+            formData.append("alternativaC", alternativaC);
+            formData.append("alternativaD", alternativaD);
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("msgAlterar").innerHTML = this.responseText;
+                    resetForm();
+                } else if (this.readyState < 4) {
+                    console.log("Aguardando resposta...");
+                } else {
+                    console.log("Requisição falhou: " + this.status);
+                }
+            };
+
+            xmlhttp.open("POST", "AlterarPergunta.php", true);
+            xmlhttp.send(formData);
+    
+}
 
         function ExcluirPergunta() {
             var idPergunta = document.getElementById("idPerguntaExcluir").value;
@@ -76,6 +157,12 @@
             xmlhttp.open("POST", "ExcluirPergunta.php", true);
             xmlhttp.send(formData);
         }
+
+        function esconderMensagens() {
+    document.getElementById("msgIncluir").innerHTML = "";
+    document.getElementById("msgExcluir").innerHTML = "";
+    document.getElementById("msgListar").innerHTML = "";
+}
 
         function resetForm() {
             document.getElementById("pergunta").value = "";
@@ -104,6 +191,14 @@
     </ul>
 
     <br>
+    <form id="formListarPergunta" style="display: none;">
+        ID: <input type="text" name="idPergunta" id="idPerguntaListar" required> <br>
+        <br>
+        <input type="button" value="Listar" onclick="ListarPergunta();">
+    </form>
+    <p id="msgListar"></p>
+    
+    <br>
     <form id="formExcluirPergunta" style="display: none;">
         ID: <input type="text" name="idPergunta" id="idPerguntaExcluir" required> <br>
         <br>
@@ -124,6 +219,18 @@
         <input type="button" value="Inserir" onclick="EnviarPergunta();">
     </form>
     <p id="msgIncluir"></p>
+
+    <form id="formAlterarPergunta" style="display: none;">
+        ID da Pergunta: <input type="text" name="idPergunta" id="idPerguntaAlterar" required> <br>
+        Pergunta: <input type="text" name="pergunta" id="perguntaAlterar" required> <br>
+        Gabarito: <input type="text" name="gabarito" id="gabaritoAlterar" required> <br>
+        Alternativa A: <input type="text" name="alternativaA" id="alternativaAAlterar"> <br>
+        Alternativa B: <input type="text" name="alternativaB" id="alternativaBAlterar"> <br>
+        Alternativa C: <input type="text" name="alternativaC" id="alternativaCAlterar"> <br>
+        Alternativa D: <input type="text" name="alternativaD" id="alternativaDAlterar"> <br>
+        <br>
+        <input type="button" value="Alterar" onclick="AlterarPergunta();">
+    </form>
     
 </body>
 </html>
