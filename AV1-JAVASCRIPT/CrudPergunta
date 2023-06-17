@@ -101,6 +101,19 @@
             xmlhttp.send(formData);
     }
 
+    function ListarPerguntas() {
+            fetch("ListarPerguntas.php", { method: "POST" })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("msgListar").innerHTML = data;
+                    document.getElementById("formListarPergunta").style.display = "none";
+                    document.getElementById("formAlterarPergunta").style.display = "none";
+                    document.getElementById("formExcluirPergunta").style.display = "none";
+                    document.getElementById("formInserirPergunta").style.display = "none";
+                })
+                .catch(error => console.log("Erro ao listar perguntas: " + error));
+        }
+
     function AlterarPergunta() {
         var idPergunta = document.getElementById("idPerguntaAlterar").value;
         var pergunta = document.getElementById("perguntaAlterar").value;
@@ -162,6 +175,7 @@
     document.getElementById("msgIncluir").innerHTML = "";
     document.getElementById("msgExcluir").innerHTML = "";
     document.getElementById("msgListar").innerHTML = "";
+    document.getElementById("msgListarPerguntas").innetHTML = "";
 }
 
         function resetForm() {
@@ -187,7 +201,8 @@
         <a href="#" onclick="abrirInserirPergunta()">Inserir Pergunta</a>
         <a href="#" onclick="abrirExcluirPergunta()">Excluir Pergunta</a>
         <a href="#" onclick="abrirAlterarPergunta()">Alterar Pergunta</a>
-        <a href="#" onclick="abrirListarPergunta()">Listar Pergunta</a>
+        <a href="#" onclick="ListarPerguntas()">Listar Perguntas</a>
+        <a href="#" onclick="abrirListarPergunta()">Listar Pergunta Única</a>
     </ul>
 
     <br>
@@ -197,8 +212,15 @@
         <input type="button" value="Listar" onclick="ListarPergunta();">
     </form>
     <p id="msgListar"></p>
-    
+
     <br>
+    <form id="formListarPerguntas" style="display: none;">
+        <h2>Listar Perguntas</h2>
+        <button type="button" onclick="ListarPerguntas()">Listar</button>
+        <p id="msgListarPerguntas"></p>
+    </form>
+    <br>
+
     <form id="formExcluirPergunta" style="display: none;">
         ID: <input type="text" name="idPergunta" id="idPerguntaExcluir" required> <br>
         <br>
