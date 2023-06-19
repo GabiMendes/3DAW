@@ -6,6 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = "root";
     $password = "";
     $database = "perguntasrespostas";
+    
     $conn = new mysqli($servername, $username, $password, $database);
 
     if ($conn->connect_error) {

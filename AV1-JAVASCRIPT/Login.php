@@ -4,21 +4,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cpf = $_POST["cpf"];
 
     function validarLogin($matricula, $cpf) {
-        $cadastros = file("cadastros.txt", FILE_IGNORE_NEW_LINES);
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "cadastros";
 
-        foreach ($cadastros as $cadastro) {
-            $dados = explode(";", $cadastro);
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
-            if ($dados[1] == $matricula && $dados[3] == $cpf) {
-                return true;
-            }
+        if ($conn->connect_error) {
+            die("Falha na conexão com o banco de dados: " . $conn->connect_error);
         }
 
-        return false;
+        $sql = "SELECT * FROM cadastros WHERE Matrícula = '$matricula' AND CPF = '$cpf'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $conn->close();
+            return true;
+        } else {
+            $conn->close();
+            return false;
+        }
     }
 
     if (validarLogin($matricula, $cpf)) {
-        http_response_code(401); 
+        http_response_code(401);
     } else {
         http_response_code(200);
     }

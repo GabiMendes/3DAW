@@ -30,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Erro na conexão com o banco de dados: " . $conn->connect_error);
     }
 
-    // Get the next available Id
     $nextIdQuery = "SELECT MAX(id) AS maxId FROM perguntagabarito";
     $result = $conn->query($nextIdQuery);
     $row = $result->fetch_assoc();

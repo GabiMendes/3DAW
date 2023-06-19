@@ -5,14 +5,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $cpf = $_POST["cpf"];
 
-    if (!file_exists("cadastros.txt")) {
-    
-        $cabecalho = "nome;matricula;email;cpf\n";
-        file_put_contents("cadastros.txt", $cabecalho);
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "cadastros";
 
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Falha na conexão com o banco de dados: " . $conn->connect_error);
     }
-    $txt = $nome . ";" . $matricula . ";" . $email . ";" . $cpf . "\n";
-    file_put_contents("cadastros.txt", $txt, FILE_APPEND);
-    echo "Aluno inserido com sucesso!";
+
+    $sql = "INSERT INTO cadastros (Nome, Matrícula, `E-mail`, CPF)
+            VALUES ('$nome', $matricula, '$email', $cpf)";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Aluno inserido com sucesso!";
+    } else {
+        echo "Erro ao inserir aluno: " . $conn->error;
+    }
+
+    $conn->close();
 }
 ?>

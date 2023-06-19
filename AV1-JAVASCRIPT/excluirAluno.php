@@ -1,23 +1,26 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $matricula = $_GET["matricula"];
-    $alunos = file("cadastros.txt", FILE_IGNORE_NEW_LINES);
-    $excluido = false;
 
-    foreach ($alunos as $indice => $aluno) {
-        $dados = explode(";", $aluno);
-        if ($dados[1] == $matricula) {
-            unset($alunos[$indice]);
-            $excluido = true;
-            break;
-        }
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "cadastros";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Falha na conexão com o banco de dados: " . $conn->connect_error);
     }
 
-    if ($excluido) {
-        file_put_contents("cadastros.txt", implode("\n", $alunos) . "\n");
+    $sql = "DELETE FROM cadastros WHERE Matrícula = $matricula";
+
+    if ($conn->query($sql) === TRUE) {
         echo "Aluno excluído com sucesso!";
     } else {
-        echo "Aluno não encontrado!";
+        echo "Erro ao excluir aluno: " . $conn->error;
     }
+
+    $conn->close();
 }
 ?>
