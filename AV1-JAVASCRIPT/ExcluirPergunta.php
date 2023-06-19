@@ -1,28 +1,30 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $idPergunta = $_POST["idPergunta"];
-    $perguntas = file_get_contents("perguntas.json");
-    $perguntasArray = json_decode($perguntas, true);
-    $perguntaExcluir = null;
+    $idResposta = $idPergunta;    
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $database = "perguntasrespostas";
+    $conn = new mysqli($servername, $username, $password, $database);
 
-    foreach ($perguntasArray as $index => $perguntaArray) {
-        $id = $perguntaArray["id"];
-        if ($id == $idPergunta) {
-            $perguntaExcluir = $perguntaArray;
-            break;
-        }
+    if ($conn->connect_error) {
+        die("Erro na conexão com o banco de dados: " . $conn->connect_error);
     }
 
-    if ($perguntaExcluir !== null) {
-        unset($perguntasArray[$index]);
-        $perguntasArray = array_values($perguntasArray);
-        $perguntasAtualizadas = json_encode($perguntasArray, JSON_PRETTY_PRINT);
+    $stmt = $conn->prepare("DELETE FROM perguntagabarito WHERE id = ?");
+    $stmt->bind_param("i", $idPergunta);
+    $stmt2 = $conn->prepare("DELETE FROM resposta WHERE id = ?");
+    $stmt2->bind_param("i", $idResposta);
 
-        file_put_contents("perguntas.json", $perguntasAtualizadas);
-
-        echo "Pergunta excluída com sucesso.";
+    if (($stmt->execute())&&($stmt2->execute())) {
+        echo "Pergunta excluída com sucesso!";
     } else {
-        echo "Pergunta não encontrada.";
+        echo "Erro na exclusão da pergunta: " . $stmt->error;
     }
+
+    $stmt->close();
+    $stmt2->close();
+    $conn->close();
 }
 ?>

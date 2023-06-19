@@ -8,9 +8,23 @@
         function abrirInserirPergunta() {
             document.getElementById("formInserirPergunta").style.display = "block";
             obterProximaId();
+            document.getElementById("formInserirResposta").style.display = "none";
             document.getElementById("formExcluirPergunta").style.display = "none";
             document.getElementById("formAlterarPergunta").style.display = "none";
             document.getElementById("formListarPergunta").style.display = "none";
+            document.getElementById("msgListarPerguntas").innerHTML = "";
+            document.getElementById("msgListarRespostas").innerHTML = "";
+            esconderMensagens();
+        }
+
+        function abrirInserirResposta() {
+            document.getElementById("formInserirResposta").style.display = "block";
+            document.getElementById("formInserirPergunta").style.display = "none";
+            document.getElementById("formExcluirPergunta").style.display = "none";
+            document.getElementById("formAlterarPergunta").style.display = "none";
+            document.getElementById("formListarPergunta").style.display = "none";
+            document.getElementById("msgListarPerguntas").innerHTML = "";
+            document.getElementById("msgListarRespostas").innerHTML = "";
             esconderMensagens();
         }
 
@@ -21,6 +35,30 @@
                     document.getElementById("idPerguntaIncluir").value = data.proximaId;
                 })
                 .catch(error => console.log("Erro ao obter a próxima ID: " + error));
+        }
+
+        function EnviarResposta() {
+            var id = document.getElementById("id").value;
+            var resposta = document.getElementById("resposta").value;
+
+            var formData = new FormData();
+            formData.append("id", id);
+            formData.append("resposta", resposta);
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("msgIncluirResposta").innerHTML = this.responseText;
+                    resetForm();
+                } else if (this.readyState < 4) {
+                    console.log("Aguardando resposta...");
+                } else {
+                    console.log("Requisição falhou: " + this.status);
+                }
+            };
+
+            xmlhttp.open("POST", "IncluirResposta.php", true);
+            xmlhttp.send(formData);
         }
 
         function EnviarPergunta() {
@@ -58,8 +96,11 @@
         function abrirExcluirPergunta() {
             document.getElementById("formExcluirPergunta").style.display = "block";
             document.getElementById("formInserirPergunta").style.display = "none";
+            document.getElementById("formInserirResposta").style.display = "none";
             document.getElementById("formAlterarPergunta").style.display = "none";
             document.getElementById("formListarPergunta").style.display = "none";
+            document.getElementById("msgListarPerguntas").innerHTML = "";
+            document.getElementById("msgListarRespostas").innerHTML = "";
             esconderMensagens();
         }
 
@@ -67,7 +108,10 @@
         document.getElementById("formAlterarPergunta").style.display = "block";
         document.getElementById("formExcluirPergunta").style.display = "none";
         document.getElementById("formInserirPergunta").style.display = "none";
+        document.getElementById("formInserirResposta").style.display = "none";
         document.getElementById("formListarPergunta").style.display = "none";
+        document.getElementById("msgListarPerguntas").innerHTML = "";
+        document.getElementById("msgListarRespostas").innerHTML = "";
         esconderMensagens();
     }
 
@@ -76,6 +120,10 @@
         document.getElementById("formAlterarPergunta").style.display = "none";
         document.getElementById("formExcluirPergunta").style.display = "none";
         document.getElementById("formInserirPergunta").style.display = "none";
+        document.getElementById("formInserirResposta").style.display = "none";
+        document.getElementById("msgListarPerguntas").innerHTML = "";
+        document.getElementById("msgListarRespostas").innerHTML = "";
+        
         esconderMensagens();
     }
 
@@ -105,11 +153,12 @@
             fetch("ListarPerguntas.php", { method: "POST" })
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById("msgListar").innerHTML = data;
+                    document.getElementById("msgListarPerguntas").innerHTML = data;
                     document.getElementById("formListarPergunta").style.display = "none";
                     document.getElementById("formAlterarPergunta").style.display = "none";
                     document.getElementById("formExcluirPergunta").style.display = "none";
                     document.getElementById("formInserirPergunta").style.display = "none";
+                    document.getElementById("msgListarRespostas").innerHTML = "";
                 })
                 .catch(error => console.log("Erro ao listar perguntas: " + error));
         }
@@ -146,6 +195,8 @@
 
             xmlhttp.open("POST", "AlterarPergunta.php", true);
             xmlhttp.send(formData);
+
+            document.getElementById("formAlterarPergunta").style.display = "none";
     
 }
 
@@ -175,7 +226,6 @@
     document.getElementById("msgIncluir").innerHTML = "";
     document.getElementById("msgExcluir").innerHTML = "";
     document.getElementById("msgListar").innerHTML = "";
-    document.getElementById("msgListarPerguntas").innetHTML = "";
 }
 
         function resetForm() {
@@ -191,6 +241,22 @@
             document.getElementById("formExcluirPergunta").style.display = "none";
             document.getElementById("msgExcluir").innerHTML = "";
         }
+    
+        function ListarRespostas() {
+            fetch("ListarRespostas.php", { method: "POST" })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("msgListarRespostas").innerHTML = data;
+                    document.getElementById("formInserirResposta").style.display = "none";
+                    document.getElementById("formListarPergunta").style.display = "none";
+                    document.getElementById("formAlterarPergunta").style.display = "none";
+                    document.getElementById("formExcluirPergunta").style.display = "none";
+                    document.getElementById("formInserirPergunta").style.display = "none";
+                    document.getElementById("msgListarPerguntas").innerHTML = "";
+                })
+                .catch(error => console.log("Erro ao listar perguntas: " + error));
+    }
+    
     </script>
     
 </head>
@@ -199,10 +265,20 @@
     <br>
     <ul>
         <a href="#" onclick="abrirInserirPergunta()">Inserir Pergunta</a>
+        <br>
         <a href="#" onclick="abrirExcluirPergunta()">Excluir Pergunta</a>
+        <br>
         <a href="#" onclick="abrirAlterarPergunta()">Alterar Pergunta</a>
+        <br>
         <a href="#" onclick="ListarPerguntas()">Listar Perguntas</a>
+        <br>
         <a href="#" onclick="abrirListarPergunta()">Listar Pergunta Única</a>
+        <br>
+        <br>
+        <a href="#" onclick="abrirInserirResposta()">Inserir Resposta</a>
+        <br>
+        <a href="#" onclick="ListarRespostas()">Listar Respostas</a>
+        
     </ul>
 
     <br>
@@ -217,9 +293,18 @@
     <form id="formListarPerguntas" style="display: none;">
         <h2>Listar Perguntas</h2>
         <button type="button" onclick="ListarPerguntas()">Listar</button>
-        <p id="msgListarPerguntas"></p>
     </form>
+        <p id="msgListarPerguntas"></p>
     <br>
+
+    <br>
+    <form id="formListarRespostas" style="display: none;">
+        <h2>Listar Respostas</h2>
+        <button type="button" onclick="ListarRespostas()">Listar</button>
+    </form>
+        <p id="msgListarRespostas"></p>
+    <br>
+
 
     <form id="formExcluirPergunta" style="display: none;">
         ID: <input type="text" name="idPergunta" id="idPerguntaExcluir" required> <br>
@@ -241,6 +326,14 @@
         <input type="button" value="Inserir" onclick="EnviarPergunta();">
     </form>
     <p id="msgIncluir"></p>
+
+    <br>
+    <form id="formInserirResposta" style="display:none;">
+        Id: <input type="text" name="id" id="id" required> <br>
+        Resposta: <input type="text" name="resposta" id="resposta" required> <br>
+        <br>
+        <input type="button" value="InserirResposta" onclick="EnviarResposta();">
+    </form>
 
     <form id="formAlterarPergunta" style="display: none;">
         ID da Pergunta: <input type="text" name="idPergunta" id="idPerguntaAlterar" required> <br>

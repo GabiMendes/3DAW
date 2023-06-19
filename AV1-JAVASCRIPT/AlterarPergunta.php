@@ -8,37 +8,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $alternativaC = $_POST["alternativaC"];
     $alternativaD = $_POST["alternativaD"];
 
-    if (empty($alternativaA)) {
-        $alternativaA = "NULL";
-    }
-    if (empty($alternativaB)) {
-        $alternativaB = "NULL";
-    }
-    if (empty($alternativaC)) {
-        $alternativaC = "NULL";
-    }
-    if (empty($alternativaD)) {
-        $alternativaD = "NULL";
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $database = "perguntasrespostas";
+    $conn = new mysqli($servername, $username, $password, $database);
+
+    // Verifica se cada campo não está vazio e realiza a alteração se necessário
+    if (!empty($pergunta)) {
+        $sql = "UPDATE perguntagabarito SET pergunta = '$pergunta' WHERE id = $idPergunta";
+        $conn->query($sql);
     }
 
-    $perguntas = file_get_contents("perguntas.json");
-    $perguntasArray = json_decode($perguntas, true);
-
-    foreach ($perguntasArray as &$perguntaArray) {
-        if ($perguntaArray["id"] == $idPergunta) {
-            $perguntaArray["pergunta"] = $pergunta;
-            $perguntaArray["gabarito"] = $gabarito;
-            $perguntaArray["alternativaA"] = $alternativaA;
-            $perguntaArray["alternativaB"] = $alternativaB;
-            $perguntaArray["alternativaC"] = $alternativaC;
-            $perguntaArray["alternativaD"] = $alternativaD;
-            break;
-        }
+    if (!empty($gabarito)) {
+        $sql = "UPDATE perguntagabarito SET gabarito = '$gabarito' WHERE id = $idPergunta";
+        $conn->query($sql);
     }
 
-    $perguntasAtualizadas = json_encode($perguntasArray, JSON_PRETTY_PRINT);
+    if (!empty($alternativaA)) {
+        $sql = "UPDATE perguntagabarito SET alternativaA = '$alternativaA' WHERE id = $idPergunta";
+        $conn->query($sql);
+    }
 
-    file_put_contents("perguntas.json", $perguntasAtualizadas);
+    if (!empty($alternativaB)) {
+        $sql = "UPDATE perguntagabarito SET alternativaB = '$alternativaB' WHERE id = $idPergunta";
+        $conn->query($sql);
+    }
+
+    if (!empty($alternativaC)) {
+        $sql = "UPDATE perguntagabarito SET alternativaC = '$alternativaC' WHERE id = $idPergunta";
+        $conn->query($sql);
+    }
+
+    if (!empty($alternativaD)) {
+        $sql = "UPDATE perguntagabarito SET alternativaD = '$alternativaD' WHERE id = $idPergunta";
+        $conn->query($sql);
+    }
+
+    $conn->close();
 
     echo "Pergunta alterada com sucesso!";
 }
