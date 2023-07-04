@@ -2,8 +2,6 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST["nome"];
     $cpf = $_POST["cpf"];
-    $rg = $_POST["rg"];
-    $email = $_POST["email"];
     $sala = $_POST["sala"];
 
     $servername = "localhost";
@@ -16,8 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Erro na conexão com o banco de dados: " . $conn->connect_error);
     }
 
-    $stmt = $conn->prepare("INSERT INTO fiscais (nome, cpf, rg, email, salaDeProva) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssi", $nome, $cpf, $rg, $email, $sala);
+    $stmt = $conn->prepare("INSERT INTO fiscais (nome, cpf, salaDeProva) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sssssi", $nome, $cpf, $sala);
 
     if ($stmt->execute()) {
         echo "Fiscal inserido com sucesso!";
