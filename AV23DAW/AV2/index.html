@@ -65,16 +65,12 @@
         function EnviarFiscal() {
             var nome = document.getElementById("nomeFiscal").value;
             var cpf = document.getElementById("cpfFiscal").value;
-            var rg = document.getElementById("rgFiscal").value;
-            var email = document.getElementById("emailFiscal").value;
             var cargo = document.getElementById("cargoFiscal").value;
             var sala = document.getElementById("salaFiscal").value;
 
             var formData = new FormData();
             formData.append("nome", nome);
             formData.append("cpf", cpf);
-            formData.append("rg", rg);
-            formData.append("email", email);
             formData.append("sala", sala);
 
             var xmlhttp = new XMLHttpRequest();
@@ -141,8 +137,6 @@
     <form id="formInserirFiscal" style="display: none;">
         NOME: <input type="text" name="nome" id="nomeFiscal" required> <br>
         CPF: <input type="text" name="cpf" id="cpfFiscal" required> <br>
-        RG: <input type="text" name="rg" id="rgFiscal"> <br>
-        EMAIL: <input type="text" name="email" id="emailFiscal"> <br>
         SALA: <input type="text" name="sala" id="salaFiscal"> <br>
         <br><br>
         <input type="button" value="Inserir" onclick="EnviarFiscal();">
