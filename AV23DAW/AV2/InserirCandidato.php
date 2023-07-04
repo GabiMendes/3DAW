@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Erro na conexão com o banco de dados: " . $conn->connect_error);
     }
 
-    $stmt = $conn->prepare("INSERT INTO candidatos (nome, cpf, rg, email, cargo, salaDeProva) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO candidatos (nome, cpf, identidade, email, cargo, salaDeProva) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("sssssi", $nome, $cpf, $rg, $email, $cargo, $sala);
 
     if ($stmt->execute()) {
