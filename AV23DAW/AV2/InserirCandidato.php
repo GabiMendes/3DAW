@@ -24,7 +24,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $countRow = $countResult->fetch_assoc();
     $totalCandidatos = $countRow["total"];
 
-    if ($totalCandidatos >= 50) {
+    $countSalaStmt = $conn->prepare("SELECT COUNT(*) as sala_exist FROM salas WHERE id = ?");
+    $countSalaStmt->bind_param("i", $sala);
+    $countSalaStmt->execute();
+    $countSalaResult = $countSalaStmt->get_result();
+    $countSalaRow = $countSalaResult->fetch_assoc();
+    $salaExists = $countSalaRow["sala_exist"];
+
+    if ($salaExists == 0) {
+        echo "Erro: a sala de prova selecionada não existe.";
+    } elseif ($totalCandidatos >= 50) {
         echo "Erro: a sala de prova selecionada está lotada.";
     } else {
         $insertStmt = $conn->prepare("INSERT INTO candidatos (nome, cpf, identidade, email, cargo, salaDeProva) VALUES (?, ?, ?, ?, ?, ?)");
@@ -32,8 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($insertStmt->execute()) {
             echo "Candidato inserido com sucesso!";
-        }
-        else {
+        } else {
             echo "Erro na inserção do candidato: " . $insertStmt->error;
         }
 
@@ -41,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $countStmt->close();
+    $countSalaStmt->close();
     $conn->close();
 }
 ?>

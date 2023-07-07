@@ -21,17 +21,31 @@ $countResult = $countStmt->get_result();
 $countRow = $countResult->fetch_assoc();
 $totalFiscais = $countRow["total"];
 
-if($totalFiscais >= 2) {
-    echo "Erro: a sala de prova selecionada está lotada. ";
-}
-else {
-    $insertStmt = "INSERT INTO fiscais (nome, cpf, salaDeProva) VALUES ('$nome', '$cpf', '$sala')";
-    if ($conn->query($insertStmt) === TRUE) {
+$countSalaStmt = $conn->prepare("SELECT COUNT(*) as sala_exist FROM salas WHERE id = ?");
+$countSalaStmt->bind_param("i", $sala);
+$countSalaStmt->execute();
+$countSalaResult = $countSalaStmt->get_result();
+$countSalaRow = $countSalaResult->fetch_assoc();
+$salaExists = $countSalaRow["sala_exist"];
+
+if ($salaExists == 0) {
+    echo "Erro: a sala de prova selecionada não existe.";
+} elseif ($totalFiscais >= 2) {
+    echo "Erro: a sala de prova selecionada está lotada.";
+} else {
+    $insertStmt = $conn->prepare("INSERT INTO fiscais (nome, cpf, salaDeProva) VALUES (?, ?, ?)");
+    $insertStmt->bind_param("ssi", $nome, $cpf, $sala);
+
+    if ($insertStmt->execute()) {
         echo "Fiscal inserido com sucesso!";
     } else {
-        echo "Erro ao inserir fiscal: " . $conn->error;
+        echo "Erro ao inserir fiscal: " . $insertStmt->error;
     }
+
+    $insertStmt->close();
 }
 
+$countStmt->close();
+$countSalaStmt->close();
 $conn->close();
 ?>

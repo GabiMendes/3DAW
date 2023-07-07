@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 07-Jul-2023 às 18:29
+-- Tempo de geração: 07-Jul-2023 às 20:09
 -- Versão do servidor: 8.0.31
 -- versão do PHP: 8.0.26
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `av2`
 --
-CREATE DATABASE IF NOT EXISTS `av2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `av2`;
 
 -- --------------------------------------------------------
 
@@ -39,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `candidatos` (
   `cargo` varchar(50) NOT NULL,
   `salaDeProva` varchar(5) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -54,7 +52,28 @@ CREATE TABLE IF NOT EXISTS `fiscais` (
   `cpf` varchar(15) NOT NULL,
   `salaDeProva` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `salas`
+--
+
+DROP TABLE IF EXISTS `salas`;
+CREATE TABLE IF NOT EXISTS `salas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Extraindo dados da tabela `salas`
+--
+
+INSERT INTO `salas` (`id`) VALUES
+(1),
+(2),
+(3);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
