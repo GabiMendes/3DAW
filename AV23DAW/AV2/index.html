@@ -6,10 +6,15 @@
     <title>CrudCandidatos</title>
 
     <script>
+        
         function abrirInserirCandidato() {
             document.getElementById("formInserirCandidato").style.display = "block";
             document.getElementById("formListarCandidatos").style.display = "none";
             document.getElementById("msgListarCandidatos").innerHTML = "";
+            document.getElementById("msgListarSalas").innerHTML = "";
+            document.getElementById("formAlterarSala").style.display = "none";
+            document.getElementById("formInserirFiscal").style.display = "none";
+            
         }
 
         function EnviarCandidato() {
@@ -51,6 +56,9 @@
                     document.getElementById("msgListarCandidatos").innerHTML = data;
                     document.getElementById("formInserirCandidato").style.display = "none";
                     document.getElementById("msgIncluir").innerHTML = "";
+                    document.getElementById("formInserirCandidato").style.display = "none";
+                    document.getElementById("formAlterarSala").style.display = "none";
+                    document.getElementById("formInserirFiscal").style.display = "none";
                 })
                 .catch(error => console.log("Erro ao listar candidatos: " + error));
         }
@@ -64,6 +72,9 @@
                     document.getElementById("formInserirFiscal").style.display = "none";
                     document.getElementById("msgIncluir").innerHTML = "";
                     document.getElementById("msgIncluirFiscal").innerHTML = "";
+                    document.getElementById("formInserirCandidato").style.display = "none";
+                    document.getElementById("formAlterarSala").style.display = "none";
+                    document.getElementById("formInserirFiscal").style.display = "none";
                 })
                 .catch(error => console.log("Erro ao listar salas: " + error));
         }
@@ -71,6 +82,10 @@
         function abrirInserirFiscal() {
             document.getElementById("formInserirFiscal").style.display = "block";
             document.getElementById("msgIncluirFiscal").innerHTML = "";
+            document.getElementById("msgListarCandidatos").innerHTML = "";
+            document.getElementById("msgListarSalas").innerHTML = "";
+            document.getElementById("formInserirCandidato").style.display = "none";
+            document.getElementById("formAlterarSala").style.display = "none";
         }
 
         function EnviarFiscal() {
@@ -103,6 +118,11 @@
         function abrirAlterarSala() {
             document.getElementById("formAlterarSala").style.display = "block";
             document.getElementById("msgAlterarSala").innerHTML = "";
+            document.getElementById("msgListarCandidatos").innerHTML = "";
+            document.getElementById("msgListarSalas").innerHTML = "";
+            document.getElementById("formInserirCandidato").style.display = "none";
+            document.getElementById("formInserirFiscal").style.display = "none";
+
         }
 
         function AlterarSala() {
@@ -202,7 +222,7 @@
 
     <form id="formInserirFiscal" style="display: none;">
         NOME: <input type="text" name="nome" id="nomeFiscal" required> <br>
-        CPF: <input type"text" name="cpf" id="cpfFiscal" required> <br>
+        CPF: <input type="text" name="cpf" id="cpfFiscal" required> <br>
         SALA: <input type="text" name="sala" id="salaFiscal"> <br>
         <br><br>
         <input type="button" value="Inserir" onclick="EnviarFiscal();">
