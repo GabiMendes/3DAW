@@ -1,29 +1,37 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome = $_POST["nome"];
-    $cpf = $_POST["cpf"];
-    $sala = $_POST["sala"];
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "av2";
 
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "fiscais";
-    $conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $database);
 
-    if ($conn->connect_error) {
-        die("Erro na conexão com o banco de dados: " . $conn->connect_error);
-    }
+if ($conn->connect_error) {
+    die("Erro na conexão com o banco de dados: " . $conn->connect_error);
+}
 
-    $stmt = $conn->prepare("INSERT INTO fiscais (nome, cpf, salaDeProva) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sssssi", $nome, $cpf, $sala);
+$nome = $_POST["nome"];
+$cpf = $_POST["cpf"];
+$sala = $_POST["sala"];
 
-    if ($stmt->execute()) {
+$countStmt = $conn->prepare("SELECT COUNT(*) as total FROM fiscais WHERE salaDeProva = ?");
+$countStmt->bind_param("i", $sala);
+$countStmt->execute();
+$countResult = $countStmt->get_result();
+$countRow = $countResult->fetch_assoc();
+$totalFiscais = $countRow["total"];
+
+if($totalFiscais >= 2) {
+    echo "Erro: a sala de prova selecionada está lotada. ";
+}
+else {
+    $insertStmt = "INSERT INTO fiscais (nome, cpf, salaDeProva) VALUES ('$nome', '$cpf', '$sala')";
+    if ($conn->query($insertStmt) === TRUE) {
         echo "Fiscal inserido com sucesso!";
     } else {
-        echo "Erro na inserção do candidato: " . $stmt->error;
+        echo "Erro ao inserir fiscal: " . $conn->error;
     }
-
-    $stmt->close();
-    $conn->close();
 }
+
+$conn->close();
 ?>

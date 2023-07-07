@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>CrudCandidatos</title>
@@ -9,7 +10,6 @@
             document.getElementById("formInserirCandidato").style.display = "block";
             document.getElementById("formListarCandidatos").style.display = "none";
             document.getElementById("msgListarCandidatos").innerHTML = "";
-            esconderMensagens();
         }
 
         function EnviarCandidato() {
@@ -55,17 +55,27 @@
                 .catch(error => console.log("Erro ao listar candidatos: " + error));
         }
 
+        function ListarSalas() {
+            fetch("ListarSalas.php", { method: "POST" })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("msgListarSalas").innerHTML = data;
+                    document.getElementById("formInserirCandidato").style.display = "none";
+                    document.getElementById("formInserirFiscal").style.display = "none";
+                    document.getElementById("msgIncluir").innerHTML = "";
+                    document.getElementById("msgIncluirFiscal").innerHTML = "";
+                })
+                .catch(error => console.log("Erro ao listar salas: " + error));
+        }
+
         function abrirInserirFiscal() {
             document.getElementById("formInserirFiscal").style.display = "block";
-          
-            document.getElementById("msgListarFiscais").innerHTML = "";
-            esconderMensagens();
+            document.getElementById("msgIncluirFiscal").innerHTML = "";
         }
 
         function EnviarFiscal() {
             var nome = document.getElementById("nomeFiscal").value;
             var cpf = document.getElementById("cpfFiscal").value;
-            var cargo = document.getElementById("cargoFiscal").value;
             var sala = document.getElementById("salaFiscal").value;
 
             var formData = new FormData();
@@ -77,7 +87,7 @@
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("msgIncluirFiscal").innerHTML = this.responseText;
-                    resetForm();
+                    resetFormFiscal();
                 } else if (this.readyState < 4) {
                     console.log("Aguardando resposta...");
                 } else {
@@ -89,17 +99,65 @@
             xmlhttp.send(formData);
         }
 
+
+        function abrirAlterarSala() {
+            document.getElementById("formAlterarSala").style.display = "block";
+            document.getElementById("msgAlterarSala").innerHTML = "";
+        }
+
+        function AlterarSala() {
+            var id = document.getElementById("idCandidato").value;
+            var novaSala = document.getElementById("novaSala").value;
+
+            var formData = new FormData();
+            formData.append("id", id);
+            formData.append("novaSala", novaSala);
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("msgAlterarSala").innerHTML = this.responseText;
+                    resetFormAlterarSala();
+                } else if (this.readyState < 4) {
+                    console.log("Aguardando resposta...");
+                } else {
+                    console.log("Requisição falhou: " + this.status);
+                }
+            };
+
+            xmlhttp.open("POST", "AlterarSala.php", true);
+            xmlhttp.send(formData);
+        }
+
+        function resetForm() {
+            document.getElementById("formInserirCandidato").reset();
+        }
+
+        function resetFormFiscal() {
+            document.getElementById("formInserirFiscal").reset();
+        }
+
+        function resetFormAlterarSala() {
+            document.getElementById("formAlterarSala").reset();
+        }
+
     </script>
-    
+
 </head>
+
 <body>
     <h1>Candidatos</h1>
     <br>
     <ul>
         <a href="#" onclick="abrirInserirCandidato()">Inserir Candidato</a>
+        <br>
         <a href="#" onclick="ListarCandidatos()">Listar Candidatos</a>
         <br>
+        <a href="#" onclick="abrirAlterarSala()">Alterar Sala de um Candidato</a>
+        <br>
         <a href="#" onclick="abrirInserirFiscal()">Inserir Fiscal</a>
+        <br>
+        <a href="#" onclick="ListarSalas()">Listar Salas</a>
         <br>
     </ul>
 
@@ -111,7 +169,15 @@
     <p id="msgListarCandidatos"></p>
     <br>
     <br>
-  
+
+    <form id="formListarSalas" style="display: none;">
+        <h2>Listar Salas</h2>
+        <button type="button" onclick="ListarSalas()">Listar</button>
+    </form>
+    <p id="msgListarSalas"></p>
+    <br>
+    <br>
+
     <form id="formInserirCandidato" style="display: none;">
         NOME: <input type="text" name="nome" id="nome" required> <br>
         CPF: <input type="text" name="cpf" id="cpf" required> <br>
@@ -136,7 +202,7 @@
 
     <form id="formInserirFiscal" style="display: none;">
         NOME: <input type="text" name="nome" id="nomeFiscal" required> <br>
-        CPF: <input type="text" name="cpf" id="cpfFiscal" required> <br>
+        CPF: <input type"text" name="cpf" id="cpfFiscal" required> <br>
         SALA: <input type="text" name="sala" id="salaFiscal"> <br>
         <br><br>
         <input type="button" value="Inserir" onclick="EnviarFiscal();">
@@ -144,6 +210,16 @@
     <p id="msgIncluirFiscal"></p>
 
     <br>
-    
+
+    <form id="formAlterarSala" style="display: none;">
+        <h2>Alterar Sala de um Candidato</h2>
+        ID do Candidato: <input type="text" name="id" id="idCandidato" required> <br>
+        Nova Sala: <input type="text" name="novaSala" id="novaSala" required> <br>
+        <br><br>
+        <input type="button" value="Alterar" onclick="AlterarSala();">
+    </form>
+    <p id="msgAlterarSala"></p>
+
 </body>
+
 </html>
